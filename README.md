@@ -1,36 +1,90 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# GramLearn - SIH 25048
 
-## Getting Started
+**A Digital Gamified Learning Platform for Rural Students**
 
-First, run the development server:
+GramLearn is a production-ready, full-stack, highly interactive educational platform designed specifically for students in rural and underserved areas of India. It addresses key challenges like limited internet connectivity, low-end smartphones, language barriers, and lack of personalized education.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+---
+
+## 🌟 Key Features
+
+1. **Gamified Student Hub:** Students earn XP, gain levels (Explorer, Scholar, Master), maintain streaks, and win virtual coins to purchase profile customizations.
+2. **Concept Visualization:** Interactive graphical modules (e.g., Fraction Visualizer) that allow students to manipulate objects rather than just read texts.
+3. **Data Saver Mode:** Toggle animations, compress layouts, and lazy-load video streams to fit low-bandwidth rural mobile plans.
+4. **AI Tutor Companion:** Interactive chat tutor that explains complex concepts simply, gives real-life examples, and generates follow-up quizzes dynamically.
+5. **Classroom Analytics:** Detailed teacher dashboard to monitor students, track completion rates, and assign lessons/quizzes.
+6. **Teacher AI Helper:** Instantly auto-generate quizzes and classroom tasks using curriculum-aligned AI assistance.
+
+---
+
+## 🛠️ Tech Stack
+
+- **Frontend:** Next.js (App Router), React, Tailwind CSS, Lucide Icons, Framer Motion
+- **Backend:** Next.js API route handlers, Node.js environment
+- **Database:** MongoDB Atlas, Mongoose schemas
+- **Auth:** NextAuth.js (Credentials/Session-based)
+
+---
+
+## 🗂️ Project Structure
+
+```
+SIH26/
+├── src/
+│   ├── app/
+│   │   ├── api/             # REST API routes (Auth, Progress, Seed)
+│   │   ├── student/         # Student Portal (Dashboard, Games, Leaderboard)
+│   │   ├── teacher/         # Teacher Portal (Classroom, Content Hub)
+│   │   ├── login/           # Custom sign-in flow
+│   │   ├── page.tsx         # Responsive Landing Page
+│   │   └── layout.tsx       # Root layout & providers
+│   ├── components/          # Reusable UI component libraries
+│   ├── context/             # Data Saver state provider
+│   ├── models/              # Mongoose DB schema definitions
+│   └── lib/                 # DB connection and NextAuth options
+├── .env.example             # Template for configuration
+└── README.md                # Platform documentation
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## ⚙️ Setup and Installation
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 1. Prerequisites
+Ensure you have [Node.js](https://nodejs.org) installed and a running [MongoDB](https://www.mongodb.com) database (local or Atlas cluster).
 
-## Learn More
+### 2. Configure Environment variables
+Duplicate `.env.example` to `.env.local` and fill in your connection details:
+```bash
+cp .env.example .env.local
+```
 
-To learn more about Next.js, take a look at the following resources:
+### 3. Install dependencies
+```bash
+npm install
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### 4. Running Locally
+Launch the Next.js development server:
+```bash
+npm run dev
+```
+Open [http://localhost:3000](http://localhost:3000) to access the landing page.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+## 👥 Demo Experience & Credentials
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+We have provided a built-in seed API endpoint to instantly populate the database with realistic student profiles, teachers, and progression metrics.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. Navigate to: `http://localhost:3000/api/seed` in your browser.
+2. You will receive a success response indicating that 10 students and 3 teachers have been seeded.
+3. Login using the credentials below:
+
+#### Student Profile:
+- **Email:** `student@demo.com`
+- **Password:** `Student@123`
+
+#### Teacher Profile:
+- **Email:** `teacher@demo.com`
+- **Password:** `Teacher@123`
