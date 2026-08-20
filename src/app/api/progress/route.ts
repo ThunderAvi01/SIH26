@@ -51,3 +51,31 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }
+
+export async function GET() {
+  try {
+    const session = await getServerSession(authOptions);
+    if (!session || session.user.role !== "STUDENT") {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    await connectToDatabase();
+
+    const student = await StudentProfile.findOne({ user: session.user.id });
+    if (!student) {
+      return NextResponse.json({ error: "Student profile not found" }, { status: 404 });
+    }
+
+    return NextResponse.json({
+      success: true,
+      name: student.name,
+      xp: student.xp,
+      level: student.level,
+      coins: student.coins,
+      streak: student.streak,
+    });
+  } catch (error: any) {
+    return NextResponse.json({ error: error.message }, { status: 500 });
+  }
+}
+

@@ -1,8 +1,9 @@
 "use client";
 
-import { useState, useParams } from "react";
-import { ArrowLeft, Volume2, HelpCircle, Check, Info, Video } from "lucide-react";
+import { useState } from "react";
+import { ArrowLeft, Volume2, HelpCircle, Check, Info } from "lucide-react";
 import Link from "next/link";
+import { useParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 
 export default function LessonDetailsPage() {
@@ -41,22 +42,24 @@ export default function LessonDetailsPage() {
   };
 
   return (
-    <div className="max-w-5xl mx-auto space-y-6 pb-24">
+    <div className="max-w-5xl mx-auto space-y-6 pb-24 relative">
       {/* Back Button */}
-      <Link href="/student/learn" className="inline-flex items-center gap-2 text-indigo-600 font-bold hover:underline">
-        <ArrowLeft className="h-4 w-4" /> Back to Lessons
+      <Link href="/student/learn" className="inline-flex items-center gap-2 text-indigo-400 font-bold hover:text-indigo-300 transition-colors group">
+        <ArrowLeft className="h-4 w-4 group-hover:-translate-x-1 transition-transform" /> Back to Lessons
       </Link>
 
       {/* Header */}
-      <div className="bg-white rounded-3xl p-6 shadow-sm border border-slate-100 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+      <div className="glass-card rounded-3xl p-6 shadow-xl border-white/5 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
-          <span className="text-xs font-bold uppercase tracking-wider text-indigo-500">{subject}</span>
-          <h1 className="text-2xl font-bold text-slate-800 capitalize">{chapter?.replace("-", " ")}</h1>
+          <span className="text-xs font-black uppercase tracking-wider text-indigo-400">{subject}</span>
+          <h1 className="text-2xl font-black text-white capitalize text-glow">{chapter?.replace("-", " ")}</h1>
         </div>
         <button 
           onClick={speakExplanation} 
-          className={`flex items-center gap-2 px-5 py-2.5 rounded-full font-bold text-sm transition-all shadow-sm ${
-            isPlayingAudio ? "bg-red-500 text-white" : "bg-indigo-50 text-indigo-600 hover:bg-indigo-100"
+          className={`flex items-center gap-2 px-5 py-2.5 rounded-full font-bold text-xs uppercase tracking-wider transition-all duration-300 border shadow-md ${
+            isPlayingAudio 
+              ? "bg-red-500 hover:bg-red-600 text-white border-red-600 shadow-red-500/20" 
+              : "bg-indigo-600/10 text-indigo-400 border-indigo-500/20 hover:bg-indigo-600/20 shadow-indigo-600/5"
           }`}
         >
           <Volume2 className="h-4 w-4" /> {isPlayingAudio ? "Stop Listening" : "Listen to Concept"}
@@ -64,13 +67,15 @@ export default function LessonDetailsPage() {
       </div>
 
       {/* Tab Switcher */}
-      <div className="flex bg-white p-1.5 rounded-2xl shadow-sm border border-slate-100 max-w-md">
+      <div className="flex bg-slate-900/60 p-1.5 rounded-2xl border border-white/5 max-w-md">
         {(["video", "visualize", "read"] as const).map((tab) => (
           <button
             key={tab}
             onClick={() => setActiveTab(tab)}
-            className={`flex-1 py-3 text-sm font-bold rounded-xl transition-all capitalize ${
-              activeTab === tab ? "bg-indigo-600 text-white shadow-md" : "text-gray-500 hover:text-gray-800"
+            className={`flex-1 py-3 text-xs font-bold uppercase tracking-wider rounded-xl transition-all duration-300 ${
+              activeTab === tab 
+                ? "bg-indigo-600 text-white shadow-md shadow-indigo-600/15" 
+                : "text-slate-400 hover:text-slate-200"
             }`}
           >
             {tab}
@@ -79,10 +84,10 @@ export default function LessonDetailsPage() {
       </div>
 
       {/* Content Area */}
-      <div className="bg-white rounded-3xl p-6 shadow-sm border border-slate-100 min-h-[400px]">
+      <div className="glass-card rounded-3xl p-6 md:p-8 shadow-xl border-white/5 min-h-[400px]">
         {activeTab === "video" && (
           <div className="space-y-6">
-            <div className="aspect-video w-full bg-slate-900 rounded-2xl overflow-hidden flex items-center justify-center relative border border-slate-200">
+            <div className="aspect-video w-full bg-slate-950 rounded-2xl overflow-hidden flex items-center justify-center relative border border-white/5 shadow-inner">
               <iframe
                 className="w-full h-full"
                 src="https://www.youtube.com/embed/n0FZhQ_GkKw"
@@ -92,8 +97,8 @@ export default function LessonDetailsPage() {
               ></iframe>
             </div>
             <div>
-              <h2 className="text-xl font-bold text-slate-800">Video Lesson: Introduction to Fractions</h2>
-              <p className="text-gray-500 mt-2">Watch this short visual guide to understand the fundamentals.</p>
+              <h2 className="text-xl font-bold text-white">Video Lesson: Introduction to Fractions</h2>
+              <p className="text-slate-400 mt-2 text-sm">Watch this short visual guide to understand the fundamentals.</p>
             </div>
           </div>
         )}
@@ -102,20 +107,22 @@ export default function LessonDetailsPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
             {/* Left Column: Controls */}
             <div className="space-y-6">
-              <h2 className="text-2xl font-bold text-slate-800">Visual Fraction Builder</h2>
-              <p className="text-gray-600">Drag or click the buttons below to change the numerator and denominator, and watch the diagram update instantly.</p>
+              <h2 className="text-2xl font-black text-white">Visual Fraction Builder</h2>
+              <p className="text-slate-400 text-sm leading-relaxed">Drag or click the buttons below to change the numerator and denominator, and watch the diagram update instantly.</p>
               
-              <div className="space-y-4">
+              <div className="space-y-5">
                 <div>
-                  <label className="block text-sm font-bold text-slate-500 mb-2 uppercase">Numerator (Parts we have): {numerator}</label>
+                  <label className="block text-xs font-bold text-slate-500 mb-2 uppercase tracking-wider">Numerator (Parts we have): {numerator}</label>
                   <div className="flex gap-2 flex-wrap">
                     {[1, 2, 3, 4, 5, 6].map((num) => (
                       <button
                         key={num}
                         disabled={num > denominator}
                         onClick={() => setNumerator(num)}
-                        className={`h-10 w-10 rounded-lg font-bold border transition-all ${
-                          numerator === num ? "bg-indigo-600 text-white border-indigo-600" : "bg-slate-50 hover:bg-slate-100 disabled:opacity-50"
+                        className={`h-11 w-11 rounded-xl font-bold text-sm border transition-all duration-300 ${
+                          numerator === num 
+                            ? "bg-indigo-600 text-white border-indigo-600 shadow-md shadow-indigo-600/10" 
+                            : "bg-slate-900/60 text-slate-300 border-white/5 hover:bg-slate-900 disabled:opacity-30 disabled:hover:bg-slate-900/60"
                         }`}
                       >
                         {num}
@@ -125,7 +132,7 @@ export default function LessonDetailsPage() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-bold text-slate-500 mb-2 uppercase">Denominator (Total equal parts): {denominator}</label>
+                  <label className="block text-xs font-bold text-slate-500 mb-2 uppercase tracking-wider">Denominator (Total equal parts): {denominator}</label>
                   <div className="flex gap-2 flex-wrap">
                     {[2, 3, 4, 5, 6, 8].map((den) => (
                       <button
@@ -134,8 +141,10 @@ export default function LessonDetailsPage() {
                           setDenominator(den);
                           if (numerator > den) setNumerator(den);
                         }}
-                        className={`h-10 w-10 rounded-lg font-bold border transition-all ${
-                          denominator === den ? "bg-indigo-600 text-white border-indigo-600" : "bg-slate-50 hover:bg-slate-100"
+                        className={`h-11 w-11 rounded-xl font-bold text-sm border transition-all duration-300 ${
+                          denominator === den 
+                            ? "bg-indigo-600 text-white border-indigo-600 shadow-md shadow-indigo-600/10" 
+                            : "bg-slate-900/60 text-slate-300 border-white/5 hover:bg-slate-900"
                         }`}
                       >
                         {den}
@@ -145,22 +154,25 @@ export default function LessonDetailsPage() {
                 </div>
               </div>
 
-              <div className="bg-indigo-50 border border-indigo-100 p-4 rounded-2xl flex items-start gap-3">
-                <Info className="h-5 w-5 text-indigo-600 mt-0.5 flex-shrink-0" />
-                <p className="text-sm text-indigo-900 leading-relaxed">
-                  Currently showing <strong className="text-indigo-600">{numerator}/{denominator}</strong>. The shape represents 1 whole unit divided into {denominator} equal parts, with {numerator} parts shaded in.
+              <div className="bg-indigo-500/10 border border-indigo-500/20 p-4 rounded-2xl flex items-start gap-3">
+                <Info className="h-5 w-5 text-indigo-400 mt-0.5 flex-shrink-0" />
+                <p className="text-xs text-indigo-200 leading-relaxed font-semibold">
+                  Currently showing <strong className="text-indigo-400">{numerator}/{denominator}</strong>. The shape represents 1 whole unit divided into {denominator} equal parts, with {numerator} parts shaded in.
                 </p>
               </div>
             </div>
 
             {/* Right Column: Visualization Display */}
-            <div className="flex flex-col items-center justify-center p-6 bg-slate-50 rounded-3xl border border-slate-100">
+            <div className="flex flex-col items-center justify-center p-8 bg-slate-950/40 rounded-3xl border border-white/5 shadow-inner relative">
+              {/* Decorative Glow */}
+              <div className="absolute w-48 h-48 rounded-full bg-indigo-500/5 blur-2xl pointer-events-none"></div>
+
               {/* Circle Visualization */}
-              <div className="relative w-64 h-64 rounded-full border-4 border-slate-300 overflow-hidden bg-white shadow-inner flex items-center justify-center">
+              <div className="relative w-64 h-64 rounded-full border-4 border-slate-700 overflow-hidden bg-slate-900/60 shadow-xl flex items-center justify-center">
                 {/* Visual slices using SVG */}
                 <svg className="w-full h-full transform -rotate-90" viewBox="0 0 100 100">
                   {/* Base Circle */}
-                  <circle cx="50" cy="50" r="48" fill="white" stroke="#e2e8f0" strokeWidth="1" />
+                  <circle cx="50" cy="50" r="48" fill="rgba(15, 23, 42, 0.4)" stroke="rgba(255,255,255,0.05)" strokeWidth="1" />
                   
                   {/* Generated Slices */}
                   {Array.from({ length: denominator }).map((_, i) => {
@@ -183,39 +195,47 @@ export default function LessonDetailsPage() {
                       <path
                         key={i}
                         d={pathData}
-                        fill={isShaded ? "#4f46e5" : "none"}
-                        stroke="#94a3b8"
-                        strokeWidth="0.5"
-                        className="transition-colors duration-300"
+                        fill={isShaded ? "url(#indigoGradient)" : "none"}
+                        stroke="rgba(255,255,255,0.15)"
+                        strokeWidth="0.7"
+                        className="transition-all duration-300"
                       />
                     );
                   })}
+                  
+                  {/* SVG Gradient Definition */}
+                  <defs>
+                    <linearGradient id="indigoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stopColor="#4f46e5" />
+                      <stop offset="100%" stopColor="#06b6d4" />
+                    </linearGradient>
+                  </defs>
                 </svg>
               </div>
-              <div className="mt-6 text-center">
-                <span className="text-3xl font-extrabold text-slate-800 border-b-2 border-slate-800 px-3 pb-1">{numerator}</span>
-                <span className="text-3xl font-extrabold text-slate-800 block mt-1">{denominator}</span>
+              <div className="mt-6 text-center select-none flex flex-col items-center">
+                <span className="text-4xl font-black text-white border-b-2 border-slate-500 px-3 pb-1">{numerator}</span>
+                <span className="text-4xl font-black text-slate-400 block mt-1">{denominator}</span>
               </div>
             </div>
           </div>
         )}
 
         {activeTab === "read" && (
-          <div className="prose max-w-none space-y-6">
-            <h2 className="text-2xl font-bold text-slate-800">Textbook Summary</h2>
-            <div className="space-y-4 text-slate-600 leading-relaxed">
+          <div className="space-y-6">
+            <h2 className="text-2xl font-black text-white">Textbook Summary</h2>
+            <div className="space-y-4 text-slate-300 leading-relaxed text-sm">
               <p>
-                In mathematics, a <strong>fraction</strong> is a number that represents a part of a whole. It consists of a numerator (the number above the line) and a non-zero denominator (the number below the line).
+                In mathematics, a <strong className="text-white">fraction</strong> is a number that represents a part of a whole. It consists of a numerator (the number above the line) and a non-zero denominator (the number below the line).
               </p>
               <p>
-                For example, in the fraction <strong>3/4</strong>:
+                For example, in the fraction <strong className="text-indigo-400">3/4</strong>:
               </p>
-              <ul className="list-disc pl-6 space-y-2">
-                <li><strong>Numerator (3):</strong> Indicates that we are referring to 3 equal parts.</li>
-                <li><strong>Denominator (4):</strong> Indicates that the whole object is divided into 4 equal parts in total.</li>
+              <ul className="list-disc pl-6 space-y-2 font-medium">
+                <li><strong className="text-white">Numerator (3):</strong> Indicates that we are referring to 3 equal parts.</li>
+                <li><strong className="text-white">Denominator (4):</strong> Indicates that the whole object is divided into 4 equal parts in total.</li>
               </ul>
               <p>
-                Understanding fractions visually helps in solving real-world sharing problems and sets the foundation for division and proportions.
+                Understanding fractions visually helps in solving real-world sharing problems and sets the foundation for division, ratios, and percentages.
               </p>
             </div>
           </div>
@@ -223,18 +243,20 @@ export default function LessonDetailsPage() {
       </div>
 
       {/* Quick Check Section */}
-      <div className="bg-gradient-to-r from-emerald-50 to-green-50 rounded-3xl p-6 border border-emerald-100">
-        <div className="flex items-center gap-3 mb-4">
-          <div className="bg-emerald-100 text-emerald-700 p-2 rounded-xl">
+      <div className="glass-card rounded-3xl p-6 border-emerald-500/20 shadow-xl bg-gradient-to-r from-emerald-950/10 via-slate-900/40 to-emerald-950/10 relative overflow-hidden">
+        <div className="absolute -top-12 -left-12 w-32 h-32 bg-emerald-500/5 rounded-full blur-2xl pointer-events-none"></div>
+        
+        <div className="flex items-center gap-3.5 mb-5 relative z-10">
+          <div className="bg-emerald-500/10 text-emerald-400 p-2.5 rounded-xl border border-emerald-500/25">
             <HelpCircle className="h-6 w-6" />
           </div>
-          <h2 className="text-xl font-bold text-slate-800">Quick Check</h2>
+          <h2 className="text-xl font-bold text-white">Quick Check</h2>
         </div>
 
-        <div className="space-y-4">
-          <p className="font-semibold text-slate-800 text-lg">If a pizza is cut into 8 equal slices and you eat 3, what fraction of the pizza is remaining?</p>
+        <div className="space-y-5 relative z-10">
+          <p className="font-bold text-white text-lg leading-snug">If a pizza is cut into 8 equal slices and you eat 3, what fraction of the pizza is remaining?</p>
           
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
             {[
               { id: 1, text: "3/8", correct: false },
               { id: 2, text: "5/8", correct: true },
@@ -245,10 +267,10 @@ export default function LessonDetailsPage() {
                 key={option.id}
                 disabled={quizSubmitted}
                 onClick={() => setSelectedAnswer(option.id)}
-                className={`p-4 rounded-2xl border text-left font-bold transition-all ${
+                className={`p-4 rounded-2xl border text-left font-bold transition-all duration-300 ${
                   selectedAnswer === option.id 
-                    ? "bg-indigo-600 border-indigo-600 text-white" 
-                    : "bg-white border-slate-200 text-slate-700 hover:border-indigo-300"
+                    ? "bg-indigo-600 border-indigo-600 text-white shadow-lg shadow-indigo-600/15" 
+                    : "bg-slate-950/40 border-white/5 text-slate-300 hover:border-indigo-500/40"
                 } disabled:opacity-80`}
               >
                 {option.text}
@@ -263,26 +285,26 @@ export default function LessonDetailsPage() {
                 setQuizSubmitted(true);
                 setIsCorrect(selectedAnswer === 2);
               }}
-              className="bg-emerald-600 hover:bg-emerald-700 text-white rounded-full px-8 py-5 mt-4 font-bold"
+              className="bg-emerald-600 hover:bg-emerald-500 text-white rounded-full px-8 py-5 mt-4 font-bold border border-emerald-500/20 active:scale-98 transition-all shadow-lg shadow-emerald-600/10"
             >
               Submit Answer
             </Button>
           ) : (
-            <div className="mt-4 p-4 bg-white rounded-2xl border border-slate-100 flex items-start gap-3 animate-fade-in">
+            <div className="mt-5 p-5 bg-slate-950/60 rounded-2xl border border-white/5 flex items-start gap-4 animate-fade-in">
               {isCorrect ? (
-                <div className="bg-emerald-100 p-2 rounded-full text-emerald-600">
+                <div className="bg-emerald-500/10 p-2.5 rounded-full text-emerald-400 border border-emerald-500/20">
                   <Check className="h-5 w-5" />
                 </div>
               ) : (
-                <div className="bg-red-100 p-2 rounded-full text-red-600">
+                <div className="bg-red-500/10 p-2.5 rounded-full text-red-400 border border-red-500/20 font-bold text-sm w-10 h-10 flex items-center justify-center">
                   X
                 </div>
               )}
               <div>
-                <p className={`font-bold ${isCorrect ? "text-emerald-700" : "text-red-700"}`}>
+                <p className={`font-bold text-lg ${isCorrect ? "text-emerald-400 text-glow" : "text-red-400"}`}>
                   {isCorrect ? "Correct! +20 XP Earned" : "Incorrect. Try again next time!"}
                 </p>
-                <p className="text-sm text-gray-500 mt-1">
+                <p className="text-slate-400 text-xs mt-1.5 leading-relaxed font-semibold">
                   Explanation: If you eat 3 slices out of 8, there are 8 - 3 = 5 slices left. Therefore, 5/8 of the pizza is remaining.
                 </p>
               </div>

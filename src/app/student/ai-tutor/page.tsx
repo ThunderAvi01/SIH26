@@ -122,44 +122,47 @@ export default function AITutorPage() {
   };
 
   return (
-    <div className="max-w-4xl mx-auto h-[calc(100vh-8rem)] flex flex-col bg-white border border-slate-100 rounded-3xl overflow-hidden shadow-sm">
+    <div className="max-w-4xl mx-auto h-[calc(100vh-10rem)] flex flex-col glass-card border-white/5 rounded-3xl overflow-hidden shadow-2xl relative">
+      {/* Decorative Glow */}
+      <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-500/5 rounded-full blur-2xl pointer-events-none"></div>
+
       {/* Header */}
-      <div className="bg-indigo-600 text-white p-6 flex items-center gap-3">
-        <div className="bg-white/20 p-2.5 rounded-2xl">
-          <Sparkles className="h-6 w-6" />
+      <div className="bg-gradient-to-r from-indigo-950/80 via-indigo-900/60 to-slate-950/80 border-b border-white/5 p-6 flex items-center gap-4 relative z-10">
+        <div className="bg-indigo-600/20 p-2.5 rounded-2xl border border-indigo-500/30">
+          <Sparkles className="h-6 w-6 text-indigo-400" />
         </div>
         <div>
-          <h1 className="text-xl font-bold">Ask Your AI Tutor</h1>
-          <p className="text-xs text-indigo-100 font-medium">Get instant, simple explanations for any concept</p>
+          <h1 className="text-xl font-black text-white text-glow">Ask Your AI Tutor</h1>
+          <p className="text-xs text-slate-400 font-semibold mt-0.5">Get instant, simple explanations for any concept</p>
         </div>
       </div>
 
       {/* Messages List */}
-      <div className="flex-1 overflow-y-auto p-6 space-y-6">
+      <div className="flex-1 overflow-y-auto p-6 space-y-6 relative z-10">
         {messages.map((msg, idx) => (
           <div key={idx} className={`flex gap-4 ${msg.role === "user" ? "justify-end" : "justify-start"}`}>
             {msg.role === "ai" && (
-              <div className="h-10 w-10 bg-indigo-100 rounded-2xl flex items-center justify-center text-indigo-600 flex-shrink-0">
+              <div className="h-10 w-10 bg-indigo-600/10 border border-indigo-500/20 rounded-2xl flex items-center justify-center text-indigo-400 flex-shrink-0">
                 <Sparkles className="h-5 w-5" />
               </div>
             )}
-            <div className="space-y-3 max-w-[80%]">
-              <div className={`p-5 rounded-3xl ${
+            <div className="space-y-3.5 max-w-[80%]">
+              <div className={`p-5 rounded-3xl text-sm md:text-base leading-relaxed ${
                 msg.role === "user" 
-                  ? "bg-indigo-600 text-white rounded-tr-none" 
-                  : "bg-slate-50 text-slate-800 border border-slate-100 rounded-tl-none"
+                  ? "bg-gradient-to-br from-indigo-600 to-purple-600 text-white rounded-tr-none border border-indigo-500/20 shadow-md" 
+                  : "bg-slate-950/50 text-slate-200 border border-white/5 rounded-tl-none"
               }`}>
-                <p className="whitespace-pre-line text-sm md:text-base leading-relaxed">{msg.content}</p>
+                <p className="whitespace-pre-line font-medium">{msg.content}</p>
               </div>
 
               {/* Quick Actions (only for AI messages) */}
               {msg.role === "ai" && msg.options && (
-                <div className="flex flex-wrap gap-2">
+                <div className="flex flex-wrap gap-2.5">
                   {msg.options.map((opt, oIdx) => (
                     <button
                       key={oIdx}
                       onClick={() => handleOptionClick(opt, msg.content)}
-                      className="text-xs font-bold text-indigo-600 bg-indigo-50 hover:bg-indigo-100 px-4 py-2 rounded-full border border-indigo-100 transition-colors shadow-sm"
+                      className="text-xs font-bold text-indigo-400 bg-indigo-500/10 hover:bg-indigo-500/20 px-4.5 py-2.5 rounded-full border border-indigo-500/20 transition-all shadow-sm active:scale-95"
                     >
                       {opt}
                     </button>
@@ -170,11 +173,11 @@ export default function AITutorPage() {
           </div>
         ))}
         {loading && (
-          <div className="flex gap-4">
-            <div className="h-10 w-10 bg-indigo-100 rounded-2xl flex items-center justify-center text-indigo-600 animate-pulse">
+          <div className="flex gap-4 animate-pulse">
+            <div className="h-10 w-10 bg-indigo-600/10 border border-indigo-500/20 rounded-2xl flex items-center justify-center text-indigo-400 flex-shrink-0">
               <Sparkles className="h-5 w-5" />
             </div>
-            <div className="bg-slate-50 border border-slate-100 rounded-3xl rounded-tl-none p-5 text-gray-500 text-sm font-medium animate-pulse">
+            <div className="bg-slate-950/50 border border-white/5 rounded-3xl rounded-tl-none p-5 text-slate-400 text-sm font-semibold">
               AI Tutor is thinking...
             </div>
           </div>
@@ -182,29 +185,17 @@ export default function AITutorPage() {
       </div>
 
       {/* Input Form */}
-      <div className="p-4 border-t bg-slate-50 flex gap-2">
+      <div className="p-4.5 border-t border-white/5 bg-slate-950/40 flex gap-3.5 relative z-10">
         <input
           type="text"
           value={input}
           onChange={(e) => setInput(e.target.value)}
           placeholder="Ask me anything... (e.g., What is photosynthesis?)"
           onKeyDown={(e) => e.key === "Enter" && handleSend(input)}
-          className="flex-1 px-5 py-3 border border-slate-200 rounded-full focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-white"
+          className="flex-1 px-5 py-3.5 bg-slate-950/60 border border-white/10 rounded-full outline-none text-white focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 transition-all font-semibold text-sm"
         />
-        <Button onClick={() => handleSend(input)} className="bg-indigo-600 hover:bg-indigo-700 text-white rounded-full p-4 h-12 w-12 flex items-center justify-center shadow-md">
-          <svg
-            className="h-5 w-5 transform rotate-45"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"
-            />
-          </svg>
+        <Button onClick={() => handleSend(input)} className="bg-indigo-600 hover:bg-indigo-500 border border-indigo-500/25 text-white rounded-full p-4 h-12 w-12 flex items-center justify-center shadow-lg shadow-indigo-600/10 active:scale-95 transition-all">
+          <Send className="h-5 w-5 text-white" />
         </Button>
       </div>
     </div>

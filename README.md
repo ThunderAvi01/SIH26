@@ -81,10 +81,29 @@ We have provided a built-in seed API endpoint to instantly populate the database
 2. You will receive a success response indicating that 10 students and 3 teachers have been seeded.
 3. Login using the credentials below:
 
-#### Student Profile:
-- **Email:** `student@demo.com`
-- **Password:** `Student@123`
+### 🎓 Demo Student Profiles
+> [!NOTE]
+> The password for all student accounts is **`Student@123`**
 
-#### Teacher Profile:
-- **Email:** `teacher@demo.com`
-- **Password:** `Teacher@123`
+| Name | Email Address | Grade / Class | Details |
+| :--- | :--- | :---: | :--- |
+| **Rahul Kumar** | `student@demo.com` | 8A | Core Demo Student |
+| **Priya Patel** | `priya@demo.com` | 8A | |
+| **Aarav Sharma** | `aarav@demo.com` | 8B | |
+| **Sneha Reddy** | `sneha@demo.com` | 8A | |
+| **Vikram Sen** | `vikram@demo.com` | 8B | |
+| **Amit Singh** | `amit@demo.com` | 8B | |
+| **Pooja Sharma** | `pooja@demo.com` | 8A | |
+| **Rohit Verma** | `rohit@demo.com` | 8B | |
+| **Ananya Das** | `ananya@demo.com` | 8A | |
+| **Karan Johar** | `karan@demo.com` | 8B | |
+
+### 🏫 Demo Teacher Profiles
+> [!NOTE]
+> The password for all teacher accounts is **`Teacher@123`**
+
+| Name | Email Address | Subject | School |
+| :--- | :--- | :--- | :--- |
+| **Dr. Alok Verma** | `teacher@demo.com` | Mathematics | Jaipur Rural High School |
+| **Mrs. Sunita Roy** | `science_teacher@demo.com` | Science | Jaipur Rural High School |
+| **Mr. Rajan Dey** | `english_teacher@demo.com` | English | Jaipur Rural High School |
